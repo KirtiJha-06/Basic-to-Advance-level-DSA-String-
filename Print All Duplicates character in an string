@@ -1,0 +1,18 @@
+TC : O(N)
+SC : O(N)
+
+
+
+// Function to find and print duplicate characters in a string
+void printDuplicates(string str) {
+    unordered_map<char, int> mp;  // Step 1: Create a map to store character frequencies
+
+    for (char ch : str)           // Step 2: Traverse the string
+        mp[ch]++;                 // Increment frequency count for each character
+
+    for (auto &it : mp)           // Step 3: Iterate through the map
+        if (it.second > 1)        // Check if the character occurs more than once
+            cout << it.first      // Print the character
+                 << ", count = " 
+                 << it.second << "\n"; // Print its frequency
+}

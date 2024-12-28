@@ -1,0 +1,63 @@
+TC: O(N)
+SC: O(N)
+
+class Solution {
+  public:
+    // Helper Function: Builds the Longest Prefix Suffix (LPS) array for KMP
+    void buildLPS(const string &pattern, vector<int> &lps) {
+        int m = pattern.size();
+        int len = 0; // Length of the previous longest prefix suffix
+        lps[0] = 0;  // lps[0] is always 0
+        int i = 1;
+        while (i < m) {
+            if (pattern[i] == pattern[len]) {
+                len++;
+                lps[i] = len; // Increment prefix-suffix match length
+                i++;
+            } else {
+                if (len != 0) {
+                    len = lps[len - 1]; // Backtrack to the previous prefix
+                } else {
+                    lps[i] = 0; // No match, set LPS to 0
+                    i++;
+                }
+            }
+        }
+    }
+
+    // Helper Function: KMP algorithm to search for a pattern in a text
+    bool KMPSearch(const string &text, const string &pattern) {
+        int n = text.size();
+        int m = pattern.size();
+        vector<int> lps(m, 0); // LPS array
+        buildLPS(pattern, lps); // Precompute the LPS array
+
+        int i = 0; // Index for text
+        int j = 0; // Index for pattern
+        while (i < n) {
+            if (pattern[j] == text[i]) {
+                i++;
+                j++;
+            }
+            if (j == m) { // Full pattern matched
+                return true;
+            } else if (i < n && pattern[j] != text[i]) {
+                if (j != 0) {
+                    j = lps[j - 1]; // Use LPS to skip comparisons
+                } else {
+                    i++;
+                }
+            }
+        }
+        return false; // Pattern not found
+    }
+
+    // Main Function: Check if two strings are rotations of each other
+    bool areRotations(string &s1, string &s2) {
+        if (s1.size() != s2.size()) { // Strings must have equal lengths
+            return false;
+        }
+        string temp = s1 + s1;        // Concatenate s1 with itself
+        return KMPSearch(temp, s2);  // Check if s2 is a substring of temp
+    }
+};

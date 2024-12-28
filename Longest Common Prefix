@@ -1,0 +1,29 @@
+TC: O(n.L) //L = length of String
+SC: O(L)
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        string ans = "";
+        int n = strs.size();
+      
+        for(int i = 0; i < strs[0].length(); i++) {
+            char ch = strs[0][i];
+            bool match = true;
+
+            for(int j = 1; j < n; j++) {
+                if (strs[j].size() <= i || ch != strs[j][i]) {
+                    match = false;
+                    break; // Exit inner loop if mismatch found
+                }
+            }
+
+            if (!match)
+                break; // Exit outer loop if characters don't match
+            else
+                ans.push_back(ch); // Add matching character to result
+        }
+
+        return ans; // Return the longest common prefix
+    }
+};

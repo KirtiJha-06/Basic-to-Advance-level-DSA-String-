@@ -1,0 +1,28 @@
+TC : O(n.klogk)
+SC : O(n.k)
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        // Step 1: Create a map to store sorted string as key and list of anagrams as values
+        map<string, vector<string>> mp;
+
+        // Step 2: Process each string in the input vector
+        for(int i = 0; i < strs.size(); i++) {
+            string temp = strs[i]; // Create a copy of the string
+            sort(temp.begin(), temp.end()); // Step 3: Sort the string to get the key
+            mp[temp].push_back(strs[i]); // Step 4: Insert the original string into the corresponding group in the map
+        }
+
+        // Step 5: Prepare the result vector to store anagram groups
+        vector<vector<string>> ans;
+
+        // Step 6: Transfer grouped anagrams from the map to the result vector
+        for(auto it: mp) {
+            ans.push_back(it.second); // Add the group of anagrams to the result
+        }
+
+        // Step 7: Return the grouped anagrams
+        return ans;
+    }
+};

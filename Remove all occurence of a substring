@@ -1,0 +1,18 @@
+TC : O(n^2/m)
+SC : O(1)
+
+class Solution {
+public:
+    string removeOccurrences(string str, string part) {
+        // Start a loop to keep removing occurrences of 'part' from 'str'
+        while (str.length() > 0 && str.find(part) <= str.length()) {
+            // Find the starting index of the first occurrence of 'part' in 'str'
+            size_t pos = str.find(part);
+            // Erase 'part' from 'str' starting at the index 'pos'
+            str.erase(pos, part.length());
+        }
+        // Return the modified string after removing all occurrences of 'part'
+        return str;
+    }
+};
+

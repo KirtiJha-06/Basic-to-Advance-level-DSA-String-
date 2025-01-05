@@ -1,0 +1,18 @@
+TC: O(2^n.n)
+SC: O(n)
+
+void solve(string &input, int idx, string temp) {
+    if (idx == input.size()) {
+        cout << temp << endl;
+        return;
+    }
+    // Exclude current character
+    solve(input, idx + 1, temp);
+    // Include current character
+    solve(input, idx + 1, temp + input[idx]);
+}
+
+void printSubsequences(char input[]) {
+    string str(input);
+    solve(str, 0, "");
+}

@@ -1,0 +1,31 @@
+TC: O(N)
+SC: O(N)
+
+class Solution {
+public:
+    bool isParenthesisBalanced(string& s) {
+        // Declare a stack to store unmatched brackets
+        stack<char> st;
+
+        // Traverse each character in the string
+        for (int i = 0; i < s.size(); i++) {
+            // If the stack is empty, push the current character
+            if (st.empty()) {
+                st.push(s[i]);
+            } 
+            // If the current character closes the top of the stack, pop it
+            else if ((st.top() == '(' && s[i] == ')') || 
+                     (st.top() == '[' && s[i] == ']') || 
+                     (st.top() == '{' && s[i] == '}')) {
+                st.pop();
+            } 
+            // If no match is found, push the current character
+            else {
+                st.push(s[i]);
+            }
+        }
+
+        // If the stack is empty, all brackets are balanced
+        return st.empty();
+    }
+};

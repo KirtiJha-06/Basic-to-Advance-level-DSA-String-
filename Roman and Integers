@@ -1,0 +1,32 @@
+TC: O(N)
+SC: O(1)
+
+class Solution {
+public:
+    int romanToDecimal(string &s) {
+        // Create a mapping of Roman characters to their decimal values
+        unordered_map<char, int> roman;
+        roman['I'] = 1;
+        roman['V'] = 5;
+        roman['X'] = 10;
+        roman['L'] = 50;
+        roman['C'] = 100;
+        roman['D'] = 500;
+        roman['M'] = 1000;
+
+        int n = s.size();
+        int num = 0;
+
+        // Iterate through the string and calculate the total value
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && roman[s[i]] > roman[s[i - 1]]) {
+                // Subtraction case (e.g., IV, IX)
+                num += roman[s[i]] - 2 * roman[s[i - 1]];
+            } else {
+                // Normal case (e.g., VI, VII)
+                num += roman[s[i]];
+            }
+        }
+        return num; // Return the final decimal value
+    }
+};

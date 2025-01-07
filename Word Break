@@ -1,0 +1,22 @@
+TC: O(2^N)
+SC: O(N)
+
+bool helper(int i, string s, set<string> st) {
+    if (i == s.length()) {
+        return true;
+    }
+    string temp = "";
+    for (int j = i; j < s.length(); j++) {
+        temp += s[j];  // Build a substring from index i to j
+        if (st.find(temp) != st.end()) {  // Check if the substring is in the dictionary
+            if (helper(j + 1, s, st)) {  // Recurse for the remaining part of the string
+                return true;
+            }
+        }
+    }
+    return false;
+}
+int wordBreak(int n, string s, vector<string>& dictionary) {
+    set<string> st(dictionary.begin(), dictionary.end());  // Convert vector to set for faster lookup
+    return helper(0, s, st);  // Start recursion from index 0 of the string
+}

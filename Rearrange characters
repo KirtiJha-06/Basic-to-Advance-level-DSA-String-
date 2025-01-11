@@ -1,0 +1,44 @@
+TC: O(nlogK)
+SC: O(k)
+
+string rearrangeString(string str) {
+    // Step 1: Count the frequency of each character
+    unordered_map<char, int> mp;
+    for (int i = 0; i < str.size(); i++) {
+        mp[str[i]]++;
+    }
+
+    // Step 2: Push characters and their frequencies into a max-priority queue
+    priority_queue<pair<int, char>> pq; // Max-heap, sorted by frequency
+    for (auto it : mp) {
+        pq.push({it.second, it.first});
+    }
+
+    // Step 3: Initialize variables for result string and temporary storage
+    string ans = "";
+    pair<int, char> temp = {0, '#'}; // Temporary pair to store the previously used character
+
+    // Step 4: Process the priority queue
+    while (!pq.empty()) {
+        pair<int, char> prev = pq.top(); // Get the character with the highest frequency
+        pq.pop();
+
+        // Add the character to the result string
+        ans += prev.second;
+        prev.first--; // Decrease its frequency
+
+        // If the previous character (stored in `temp`) has remaining frequency, push it back
+        if (temp.first > 0) {
+            pq.push(temp);
+        }
+
+        // Update `temp` to the current character
+        temp = prev;
+    }
+
+    // Step 5: Check if the rearrangement is valid
+    if (ans.length() == str.length()) {
+        return ans; // Successfully rearranged
+    }
+    return "-1"; // Rearrangement not possible
+}

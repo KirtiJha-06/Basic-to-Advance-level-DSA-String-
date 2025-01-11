@@ -1,0 +1,21 @@
+TC: O(N)
+SC: O(1)
+
+class Solution {
+public:
+    int minimumNumberOfSwaps(string& s) {
+        int ans = 0, count = 0; // Initialize `ans` to track swaps, `count` to track balance.
+
+        for (int i = 0; i < s.size(); i++) { // Iterate through the string
+            if (s[i] == '[') 
+                count++; // Increase `count` for each `[`. This tracks available open brackets.
+            else { 
+                count--; // Decrease `count` for each `]`. This consumes an open bracket if available.
+                if (count < 0) // Imbalance detected (more `]` than `[`)
+                    ans -= count; // Add imbalance to `ans`. Swaps will be needed to fix it.
+            }
+        }
+
+        return ans; // Return the total swaps required to balance the string.
+    }
+};

@@ -1,0 +1,29 @@
+TC : O(N.L.logL + G.logG)
+SC : O(N.L)
+
+class Solution {
+  public:
+    vector<vector<string>> anagrams(vector<string>& arr) {
+        // Step 1: Create a map to group strings by their sorted version
+        map<string, vector<string>> mp;
+
+        // Step 2: Iterate through each string in the input array
+        for (string& s : arr) {
+            string temp(s); // Create a copy of the current string
+            sort(temp.begin(), temp.end()); // Sort the string to form its "anagram key"
+            mp[temp].push_back(s); // Add the original string to the map under the sorted key
+        }
+
+        // Step 3: Prepare the result vector to store grouped anagrams
+        vector<vector<string>> ans;
+        for (auto& x : mp) {
+            ans.push_back(x.second); // Add each group of anagrams to the result
+        }
+
+        // Optional Step 4: Sort the groups lexicographically (if required)
+        sort(ans.begin(), ans.end());
+
+        // Step 5: Return the grouped anagrams
+        return ans;
+    }
+};

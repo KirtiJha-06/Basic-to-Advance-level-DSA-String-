@@ -1,0 +1,51 @@
+TC: O(N)
+SC: O(N+M)
+
+class Solution {
+  public:
+    // Function to find the smallest window in the string s1 consisting
+    // of all the characters of string s2.
+    string smallestWindow(string &s1, string &s2) {
+        // Initialize necessary variables
+        int n = s1.length(), m = s2.length();
+        
+        unordered_map<char, int> mp;  // Frequency map for s2
+        int dist = 0;  // Number of distinct characters in s2
+        for(auto ch : s2) {
+            mp[ch]++;
+            if(mp[ch] == 1) dist++;  // Increase distinct count for unique characters
+        }
+
+        unordered_map<char, int> charcnts;  // Frequency map for the current window in s1
+        int st = 0;  // Starting index of the window
+        int size = n;  // Initialize window size to max (n)
+        int start = -1, end = -1;  // Indices for the smallest window
+        int matchCount = 0;  // To count how many characters of s2 are matched in current window
+
+        // Iterate through s1 to find the window
+        for(int ed = 0; ed < n; ed++) {
+            charcnts[s1[ed]]++;  // Increment count of character in the current window
+            
+            // If current character's count matches with s2's count
+            if(mp[s1[ed]] == charcnts[s1[ed]]) matchCount++;
+            
+            // If all characters of s2 are found in the window
+            if(matchCount == dist) {
+                // Try to minimize the window by moving the start index
+                while(charcnts[s1[st]] > mp[s1[st]]) {
+                    charcnts[s1[st]]--;
+                    st++;
+                }
+                // Update smallest window if the current one is smaller
+                if((ed - st + 1) < size) {
+                    size = ed - st + 1; 
+                    start = st;
+                    end = ed;
+                }
+            }
+        }
+
+        // Return the smallest window or empty string if no such window exists
+        return (start == -1) ? "" : s1.substr(start, size);
+    }
+};

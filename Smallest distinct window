@@ -1,0 +1,36 @@
+TC: O(N)
+SC: O(K)
+
+class Solution {  
+public:  
+    int findSubString(string& s) {  
+        int ans = INT_MAX;  
+        unordered_map<int, int> mp;  
+        
+        // Count unique characters in s
+        for (int i = 0; i < s.length(); i++) mp[s[i]]++;  
+        int k = mp.size(); // Total unique characters  
+        int i = 0, j = 0;  
+        mp.clear(); // Reset frequency map for sliding window  
+
+        // Sliding window approach  
+        while (j < s.length()) {  
+            mp[s[j]]++; // Expand window by adding s[j]  
+            
+            // If window contains all unique characters  
+            if (mp.size() == k) {  
+                ans = min(ans, j - i + 1);  
+                
+                // Try shrinking the window from left  
+                while (mp.size() == k) {  
+                    ans = min(ans, j - i + 1);  
+                    mp[s[i]]--;  
+                    if (mp[s[i]] == 0) mp.erase(s[i]);  
+                    i++;  
+                }  
+            }  
+            j++; // Expand window  
+        }  
+        return ans; // Return the minimum length of substring  
+    }  
+};

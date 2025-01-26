@@ -1,0 +1,32 @@
+TC : O(N)
+SC : O(1)
+
+class Solution {
+  public:
+    bool areIsomorphic(string &s1, string &s2) {
+        if (s1.length() != s2.length()) return false;  
+        // If the lengths are different, they cannot be isomorphic
+
+        unordered_map<char, char> mp1, mp2;  
+        // mp1 maps characters from s1 to s2
+        // mp2 maps characters from s2 to s1 (to prevent duplicate mappings)
+
+        for (int i = 0; i < s1.length(); i++) {  
+            // Iterate through each character of both strings
+            
+            if (mp1.count(s1[i]) && mp1[s1[i]] != s2[i]) return false;  
+            // If s1[i] is already mapped and its mapping is inconsistent, return false
+
+            if (mp2.count(s2[i]) && mp2[s2[i]] != s1[i]) return false;  
+            // If s2[i] is already mapped and its mapping is inconsistent, return false
+
+            mp1[s1[i]] = s2[i];  
+            // Store mapping from s1[i] to s2[i]
+
+            mp2[s2[i]] = s1[i];  
+            // Store reverse mapping from s2[i] to s1[i]
+        }
+        return true;  
+        // If no conflicts were found, the strings are isomorphic
+    }
+};

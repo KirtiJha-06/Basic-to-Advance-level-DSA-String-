@@ -1,0 +1,26 @@
+TC: O(N)
+SC: O(1)
+class Solution {
+  public:
+    string removeConsecutiveCharacter(string& s) {
+        int i = 0;   // Pointer 'i' keeps track of the last unique character.
+        int j = 0;   // Pointer 'j' moves through the string to check for duplicates.
+        
+        string str = "";  // Result string to store the final output.
+        
+        while(j < s.length()) {  // Traverse the string with 'j' pointer
+            if(s[i] == s[j]) {   // If characters at 'i' and 'j' are same, move 'j' forward.
+                j++;
+            }
+            else if(s[j] != s[i] || j < s.length()-1) {  
+                // When a different character is found OR we are not at the last character
+                str += s[i];  // Add the unique character at 'i' to result
+                
+                i = j;  // Move 'i' to the new unique character's position
+                j++;  // Increment 'j' to continue scanning
+            }
+        }
+        str += s[j-1];  // Add the last unique character to the result
+        return str;
+    }
+};

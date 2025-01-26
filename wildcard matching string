@@ -1,0 +1,41 @@
+TC: O(N*M)
+SC: O(1)
+
+class Solution{
+    public:
+    bool match(string wild, string pattern)
+    {
+        int i = 0, j = 0;      // i -> index for pattern, j -> index for wild (wildcard string)
+        int iStar = -1, jStar = -1; // iStar & jStar store positions when '*' is encountered
+        
+        while (i < pattern.size()) { // Traverse the pattern
+            if (j < wild.size() && (wild[j] == pattern[i] || wild[j] == '?')) {
+                // Case 1: Characters match OR '?' is present, so move both pointers
+                i++;
+                j++;
+            }
+            else if (j < wild.size() && wild[j] == '*') {
+                // Case 2: '*' found, store its position and move `j` forward
+                iStar = i;    // Store current i position
+                jStar = j++;  // Store *'s position and move j forward
+            }
+            else if (iStar >= 0) {
+                // Case 3: If mismatch occurs but '*' was found previously
+                i = iStar++;  // Increment `iStar`, try to match more characters
+                j = jStar + 1; // Backtrack to '*' position, move j forward
+            }
+            else {
+                // Case 4: If none of the above conditions hold, return false (mismatch)
+                return false;
+            }
+        }
+
+        // If remaining characters in `wild` are '*', move `j` forward
+        while (j < wild.size() && wild[j] == '*') {
+            j++;
+        }
+
+        // If `j` reaches end of `wild`, return true
+        return j == wild.size();
+    }
+};
